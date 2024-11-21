@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Игра Мемори</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Подключение библиотек React, ReactDOM и Babel -->
+  <script src="./vendor/react.development.js"></script>
+  <script src="./vendor/react-dom.development.js"></script>
+  <script src="./vendor/babel.min.js"></script>
+  <!-- Подключение файла данных -->
+  <script src="./data.js"></script>
+</head>
+
+<body>
+  <div id="root">Корневой элемент</div>
+  <script type="text/babel">
+    // Компонент карточки
+    const Card = ({ id, url, description, isVisible, isFinished }) => {
+      const cardClass = `card ${isVisible ? 'card-show' : ''} ${isFinished ? 'card-finished' : ''}`;
+      return (
+        <li className={cardClass}>
+          <img src={url} alt={description} width="204" height="144" />
+        </li>
+      );
+    };
+
+    // Корневой компонент
+    const App = ({ images, visibleItems, finishedItems }) => {
+      return (
+        <section className="game container">
+          <ul className="cards cards-theme-cars">
+            {images.map(({ id, url, description }) => (
+              <Card
+                key={id}
+                id={id}
+                url={url}
+                description={description}
+                isVisible={visibleItems.includes(id)}
+                isFinished={finishedItems.includes(id)}
+              />
+            ))}
+          </ul>
+        </section>
+      );
+    };
+
+    // Отрисовка приложения
+    const container = document.getElementById('root');
+    ReactDOM.render(
+      <App images={images} visibleItems={visibleItems} finishedItems={finishedItems} />,
+      container
+    );
+  </script>
+</body>
+
+</html>
